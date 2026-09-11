@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#090b10">
+<title>Qawwali Live • Voice Harmonium</title>
+<style>
+:root{--bg:#090b10;--card:#121722;--card2:#171d29;--text:#f5f7fb;--muted:#9aa4b5;--accent:#d7b46a;--danger:#d45b62}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% -20%,#242b3a 0,#090b10 45%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+main{max-width:760px;margin:auto;padding:16px 14px 30px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.brand{font-weight:800;letter-spacing:.4px}.pill{font-size:12px;color:var(--muted);border:1px solid #2b3342;padding:6px 9px;border-radius:99px}
+.hero{background:linear-gradient(145deg,#171e2b,#0f141e);border:1px solid #293242;border-radius:24px;padding:20px;text-align:center;box-shadow:0 12px 35px #0007}
+.status{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.8px}.note{font-size:78px;line-height:1;font-weight:850;margin:12px 0 5px;color:var(--accent)}.freq{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}.meter{height:7px;background:#252c39;border-radius:9px;margin:18px 4px 4px;overflow:hidden}.meter i{display:block;height:100%;width:50%;transform:translateX(-50%);margin-left:50%;background:var(--accent);border-radius:9px;transition:width .06s}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.card{background:var(--card);border:1px solid #252e3c;border-radius:18px;padding:14px}.wide{grid-column:1/-1}
+label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}select,button{width:100%;border:1px solid #30394a;background:var(--card2);color:var(--text);border-radius:12px;padding:12px;font-size:15px}button{font-weight:750;cursor:pointer}.primary{background:var(--accent);color:#111;border-color:var(--accent)}.danger{border-color:#6a3037;color:#ffb1b5}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.switch{display:flex;align-items:center;justify-content:space-between;margin:8px 0;color:#dce1ea;font-size:14px}.switch input{width:22px;height:22px;accent-color:var(--accent)}
+.slider{width:100%;accent-color:var(--accent)}.bigstart{margin-top:12px;padding:17px;font-size:17px}
+.small{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px}
+kbd{background:#202736;border:1px solid #323c4f;border-radius:6px;padding:2px 5px}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><div class="brand">Qawwali Live</div><div class="pill" id="latency">Mic: off</div></div>
+  <section class="hero">
+    <div class="status" id="status">Ready for stage</div>
+    <div class="note" id="note">—</div>
+    <div class="freq" id="freq">Sing after Start Live</div>
+    <div class="meter"><i id="meter"></i></div>
+    <button class="primary bigstart" id="start">START LIVE</button>
+  </section>
+
+  <section class="controls">
+    <div class="card">
+      <label>Sa / Tonic</label>
+      <select id="tonic"></select>
+    </div>
+    <div class="card">
+      <label>Scale</label>
+      <select id="scale">
+        <option value="major">Major / Bilawal</option>
+        <option value="minor">Natural Minor / Asavari</option>
+        <option value="bhairavi">Bhairavi-style</option>
+        <option value="harmonic">Harmonic Minor</option>
+      </select>
+    </div>
+    <div class="card">
+      <label>Harmonium volume</label>
+      <input class="slider" id="hvol" type="range" min="0" max="1" step=".01" value=".72">
+    </div>
+    <div class="card">
+      <label>Drone volume</label>
+      <input class="slider" id="dvol" type="range" min="0" max="1" step=".01" value=".38">
+    </div>
+
+    <div class="card wide">
+      <div class="switch"><span>Voice → Harmonium follower</span><input id="follow" type="checkbox" checked></div>
+      <div class="switch"><span>Tanpura-style Sa / Pa drone</span><input id="drone" type="checkbox" checked></div>
+      <div class="switch"><span>Tabla groove</span><input id="tabla" type="checkbox" checked></div>
+      <div class="row">
+        <select id="groove">
+          <option value="slow">Qawwali Slow • 76 BPM</option>
+          <option value="medium" selected>Qawwali Medium • 92 BPM</option>
+          <option value="fast">Qawwali Fast • 112 BPM</option>
+        </select>
+        <button id="panic" class="danger">ALL STOP</button>
+      </div>
+    </div>
+    <div class="card wide">
+      <div class="small">
+        Stage tip: use wired headphones/monitoring when possible. On Android, allow microphone access and keep the phone close to the mic source. 
+        The follower uses live pitch estimation and a synthesized harmonium tone, so it works offline after this page is loaded.
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const A4=440, names=["C","C♯","D","D♯","E","F","F♯","G","G♯","A","A♯","B"];
+const tonicSel=document.getElementById('tonic');
+for(let m=0;m<12;m++){let o=document.createElement('option');o.value=m;o.textContent=names[m];if(m===0)o.selected=true;tonicSel.appendChild(o)}
+const $=id=>document.getElementById(id);
+let ac,stream,src,analyser,buf,raf,live=false,lastNote=-1,lastTime=0;
+let harmGain,droneGain,tablaGain,tablaTimer=null;
+const midiFreq=m=>A4*Math.pow(2,(m-69)/12);
+function midiToName(m){return names[(m%12+12)%12]+(Math.floor(m/12)-1)}
+function freqToMidi(f){return 69+12*Math.log2(f/A4)}
+function detectPitch(data,sr){
+  let rms=0; for(let i=0;i<data.length;i++) rms+=data[i]*data[i];
+  rms=Math.sqrt(rms/data.length); if(rms<0.018)return null;
+  let bestLag=0,best=-1, maxLag=Math.floor(sr/70), minLag=Math.floor(sr/900);
+  for(let lag=minLag;lag<=maxLag;lag++){
+    let sum=0; for(let i=0;i<data.length-lag;i++) sum+=data[i]*data[i+lag];
+    let v=sum/(data.length-lag); if(v>best){best=v;bestLag=lag}
+  }
+  if(bestLag===0)return null;
+  let f=sr/bestLag;
+  if(f<70||f>900)return null;
+  return {f,rms};
+}
+function stopVoice(){
+  if(harmGain){harmGain.gain.cancelScheduledValues(ac.currentTime);harmGain.gain.setTargetAtTime(0,ac.currentTime,.025)}
+}
+function playHarmonium(midi,vel=.8){
+  if(!ac||!harmGain)return;
+  const now=ac.currentTime, f=midiFreq(midi);
+  const o1=ac.createOscillator(),o2=ac.createOscillator(),o3=ac.createOscillator();
+  const g=ac.createGain(); g.gain.value=0;
+  // bright reed-like additive tone with slight detune
+  o1.type='sawtooth'; o2.type='sawtooth'; o3.type='triangle';
+  o1.frequency.value=f;o2.frequency.value=f*1.002;o3.frequency.value=f*2;
+  const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2800;lp.Q.value=.5;
+  o1.connect(g);o2.connect(g);o3.connect(g);g.connect(lp);lp.connect(harmGain);
+  const amp=.18*Number($('hvol').value)*vel;
+  g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(amp,now+.025);
+  g.gain.setTargetAtTime(amp*.82,now+.04,.16);
+  setTimeout(()=>{try{o1.stop();o2.stop();o3.stop()}catch(e){}},900);
+  o1.start();o2.start();o3.start();
+}
+function setDrone(){
+  if(!ac||!droneGain)return;
+  droneGain.gain.value=0;
+  const tonic=Number(tonicSel.value);
+  const root=48+tonic, fifth=root+7;
+  [root,root+12,fifth+12].forEach((m,i)=>{
+    const o=ac.createOscillator();o.type=i===0?'triangle':'sine';o.frequency.value=midiFreq(m);
+    const g=ac.createGain();g.gain.value=i===0?.13:.055;o.connect(g);g.connect(droneGain);o.start();
+  });
+  droneGain.gain.value=Number($('dvol').value);
+}
+function tablaHit(kind){
+  if(!ac||!tablaGain)return;
+  const now=ac.currentTime;
+  const o=ac.createOscillator(),g=ac.createGain(),f=ac.createBiquadFilter();
+  o.type='sine'; o.frequency.value=kind==='dha'?155:kind==='na'?235:95;
+  f.type='bandpass';f.frequency.value=kind==='dha'?700:kind==='na'?1300:220;f.Q.value=1.1;
+  o.connect(f);f.connect(g);g.connect(tablaGain);g.gain.setValueAtTime(.001,now);
+  g.gain.exponentialRampToValueAtTime(kind==='dha'?.34:.24,now+.004);
+  g.gain.exponentialRampToValueAtTime(.001,now+.16);o.start();o.stop(now+.18);
+}
+function grooveMs(){return {slow:60000/76,medium:60000/92,fast:60000/112}[$('groove').value]}
+function restartTabla(){
+  if(tablaTimer)clearInterval(tablaTimer); tablaTimer=null;
+  if(!$('tabla').checked||!ac)return;
+  let step=0, seq=['dha',null,'na','na','dha',null,'na','na'];
+  tablaTimer=setInterval(()=>{tablaHit(seq[step++%seq.length])},grooveMs()/2);
+}
+async function start(){
+  if(live){stop();return}
+  try{
+    ac=new (window.AudioContext||window.webkitAudioContext)();
+    stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+    src=ac.createMediaStreamSource(stream);analyser=ac.createAnalyser();analyser.fftSize=2048;analyser.smoothingTimeConstant=.15;
+    src.connect(analyser);buf=new Float32Array(analyser.fftSize);
+    harmGain=ac.createGain();droneGain=ac.createGain();tablaGain=ac.createGain();
+    harmGain.connect(ac.destination);droneGain.connect(ac.destination);tablaGain.connect(ac.destination);
+    live=true;$('start').textContent='STOP LIVE';$('status').textContent='Listening • sing normally';$('latency').textContent='Mic: live';
+    if($('drone').checked)setDrone();restartTabla();raf=requestAnimationFrame(loop);
+  }catch(e){$('status').textContent='Microphone permission required';console.error(e)}
+}
+function stop(){
+  live=false;if(raf)cancelAnimationFrame(raf);if(tablaTimer)clearInterval(tablaTimer);
+  if(stream)stream.getTracks().forEach(t=>t.stop()); if(ac)ac.close();
+  $('start').textContent='START LIVE';$('status').textContent='Ready for stage';$('latency').textContent='Mic: off';
+  $('note').textContent='—';$('freq').textContent='Sing after Start Live';$('meter').style.width='50%';
+}
+function loop(){
+  if(!live)return;
+  analyser.getFloatTimeDomainData(buf); const p=detectPitch(buf,ac.sampleRate);
+  if(p){
+    const midi=Math.round(freqToMidi(p.f));
+    const cents=(freqToMidi(p.f)-midi)*100;
+    $('note').textContent=midiToName(midi);
+    $('freq').textContent=p.f.toFixed(1)+' Hz  •  '+(cents>=0?'+':'')+cents.toFixed(0)+' cents';
+    $('meter').style.width=Math.max(4,Math.min(96,50+cents*.45))+'%';
+    if($('follow').checked && Math.abs(midi-lastNote)>0 || ($('follow').checked&&performance.now()-lastTime>500&&midi===lastNote)){
+      if(performance.now()-lastTime>65){stopVoice();playHarmonium(midi,Math.min(1,p.rms*16));lastNote=midi;lastTime=performance.now()}
+    }
+  }
+  raf=requestAnimationFrame(loop);
+}
+$('start').onclick=start;$('panic').onclick=()=>{if(live)stop()};
+$('drone').onchange=()=>{if(live&&droneGain)droneGain.gain.value=$('drone').checked?Number($('dvol').value):0};
+$('dvol').oninput=()=>{if(live&&droneGain&&$('drone').checked)droneGain.gain.value=Number($('dvol').value)};
+$('hvol').oninput=()=>{};$('tabla').onchange=restartTabla;$('groove').onchange=restartTabla;$('tonic').onchange=()=>{if(live&&$('drone').checked){/* drone is static in this MVP, restart to retune */stop();setTimeout(start,50)}};
+</script>
+</body></html>

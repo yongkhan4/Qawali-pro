@@ -1,0 +1,8 @@
+{
+  "name": "Qawwali Live",
+  "short_name": "Qawwali Live",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#090b10",
+  "theme_color": "#090b10"
+}
