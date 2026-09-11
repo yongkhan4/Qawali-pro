@@ -2,186 +2,279 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#090b10">
-<title>Qawwali Live • Voice Harmonium</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#080a0f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Qawwali Live</title>
 <style>
-:root{--bg:#090b10;--card:#121722;--card2:#171d29;--text:#f5f7fb;--muted:#9aa4b5;--accent:#d7b46a;--danger:#d45b62}
-*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% -20%,#242b3a 0,#090b10 45%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
-main{max-width:760px;margin:auto;padding:16px 14px 30px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.brand{font-weight:800;letter-spacing:.4px}.pill{font-size:12px;color:var(--muted);border:1px solid #2b3342;padding:6px 9px;border-radius:99px}
-.hero{background:linear-gradient(145deg,#171e2b,#0f141e);border:1px solid #293242;border-radius:24px;padding:20px;text-align:center;box-shadow:0 12px 35px #0007}
-.status{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.8px}.note{font-size:78px;line-height:1;font-weight:850;margin:12px 0 5px;color:var(--accent)}.freq{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}.meter{height:7px;background:#252c39;border-radius:9px;margin:18px 4px 4px;overflow:hidden}.meter i{display:block;height:100%;width:50%;transform:translateX(-50%);margin-left:50%;background:var(--accent);border-radius:9px;transition:width .06s}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.card{background:var(--card);border:1px solid #252e3c;border-radius:18px;padding:14px}.wide{grid-column:1/-1}
-label{display:block;color:var(--muted);font-size:12px;margin-bottom:7px}select,button{width:100%;border:1px solid #30394a;background:var(--card2);color:var(--text);border-radius:12px;padding:12px;font-size:15px}button{font-weight:750;cursor:pointer}.primary{background:var(--accent);color:#111;border-color:var(--accent)}.danger{border-color:#6a3037;color:#ffb1b5}
-.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.switch{display:flex;align-items:center;justify-content:space-between;margin:8px 0;color:#dce1ea;font-size:14px}.switch input{width:22px;height:22px;accent-color:var(--accent)}
-.slider{width:100%;accent-color:var(--accent)}.bigstart{margin-top:12px;padding:17px;font-size:17px}
-.small{font-size:12px;color:var(--muted);line-height:1.45;margin-top:10px}
-kbd{background:#202736;border:1px solid #323c4f;border-radius:6px;padding:2px 5px}
+:root{--bg:#080a0f;--panel:#111621;--panel2:#171d29;--line:#293242;--text:#f5f7fb;--muted:#929dad;--gold:#e1bd70;--green:#73d39b;--red:#e0646b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+body{min-height:100vh;background:radial-gradient(circle at 50% -10%,#283142 0,#080a0f 46%);padding-bottom:env(safe-area-inset-bottom)}
+button,select,input{font:inherit}button,select{color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 12px}button{font-weight:800}button:active{transform:scale(.985)}
+.app{max-width:900px;margin:auto;padding:13px 13px 28px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.brand{font-size:17px;font-weight:900;letter-spacing:.2px}.brand span{color:var(--gold)}.statuspill{font-size:10px;letter-spacing:1px;border:1px solid var(--line);padding:6px 9px;border-radius:999px;color:var(--muted)}
+.hero{border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,#171e2b,#0e131c);padding:17px 16px;box-shadow:0 15px 45px #0008}.status{text-align:center;text-transform:uppercase;letter-spacing:1.8px;font-size:10px;color:var(--muted)}.note{text-align:center;font-size:80px;font-weight:950;line-height:1;color:var(--gold);margin:7px 0 2px}.sub{text-align:center;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}.meter{height:8px;background:#252d3a;border-radius:8px;overflow:hidden;position:relative;margin:15px 2px 4px}.meter:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:2px;background:#697486}.meter i{display:block;height:100%;width:50%;margin-left:50%;transform:translateX(-50%);background:var(--gold);border-radius:8px}.start{width:100%;margin-top:10px;padding:16px;font-size:16px;background:var(--gold);color:#111;border-color:var(--gold)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:9px}.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:12px}.wide{grid-column:1/-1}.card h3{font-size:12px;margin:0 0 9px}.label{font-size:10px;color:var(--muted);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.6px}.range{width:100%;accent-color:var(--gold)}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.switch{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13px}.switch input{width:21px;height:21px;accent-color:var(--gold)}.mini{font-size:10px;color:var(--muted);line-height:1.45}.bpm{font-size:23px;font-weight:900}.bigbtn{padding:14px 8px}.danger{color:#ffb9bd;border-color:#633139}.good{color:var(--green)}.hidden{display:none!important}.stage body{}.stage .grid{display:none}.stage .hero{min-height:72vh;display:flex;flex-direction:column;justify-content:center}.stage .note{font-size:120px}.stage .top{margin-bottom:18px}.stage .stageBtns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.stage .stageBtns button{padding:18px;font-size:16px}.stage .start{margin-top:12px}.stage #stageExit{display:block!important}.stage .hero .stageBtns{display:grid}.stage .hero .stageBtns button{background:var(--panel2)}.tag{display:inline-block;padding:4px 7px;border:1px solid var(--line);border-radius:7px;font-size:9px;color:var(--muted);margin-right:5px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.wide{grid-column:span 4}.hero{padding:20px}.note{font-size:100px}}
 </style>
 </head>
 <body>
-<main>
-  <div class="top"><div class="brand">Qawwali Live</div><div class="pill" id="latency">Mic: off</div></div>
+<div class="app" id="app">
+  <div class="top">
+    <div class="brand">QAWWALI <span>LIVE</span></div>
+    <div class="statuspill" id="micStatus">OFFLINE</div>
+  </div>
+
   <section class="hero">
-    <div class="status" id="status">Ready for stage</div>
+    <div class="status" id="status">Ready for performance</div>
     <div class="note" id="note">—</div>
-    <div class="freq" id="freq">Sing after Start Live</div>
+    <div class="sub" id="readout">Press START LIVE, allow microphone, and sing</div>
     <div class="meter"><i id="meter"></i></div>
-    <button class="primary bigstart" id="start">START LIVE</button>
+    <button class="start" id="start">START LIVE</button>
+    <div class="stageBtns">
+      <button id="build">BUILD</button>
+      <button id="climax">CLIMAX</button>
+    </div>
+    <button id="stageExit" class="hidden" style="margin-top:9px">EXIT STAGE MODE</button>
   </section>
 
-  <section class="controls">
+  <section class="grid">
     <div class="card">
-      <label>Sa / Tonic</label>
-      <select id="tonic"></select>
+      <label class="label">Sa / Tonic</label><select id="tonic"></select>
     </div>
     <div class="card">
-      <label>Scale</label>
+      <label class="label">Scale / Raga</label>
       <select id="scale">
-        <option value="major">Major / Bilawal</option>
-        <option value="minor">Natural Minor / Asavari</option>
+        <option value="bilawal">Bilawal / Major</option>
+        <option value="kafi">Kafi / Minor-ish</option>
         <option value="bhairavi">Bhairavi-style</option>
-        <option value="harmonic">Harmonic Minor</option>
+        <option value="custom">Custom</option>
       </select>
     </div>
     <div class="card">
-      <label>Harmonium volume</label>
-      <input class="slider" id="hvol" type="range" min="0" max="1" step=".01" value=".72">
+      <label class="label">Taal</label>
+      <select id="taal"><option value="keherwa">Keherwa · 8</option><option value="dadra">Dadra · 6</option><option value="teental">Teentaal · 16</option></select>
     </div>
     <div class="card">
-      <label>Drone volume</label>
-      <input class="slider" id="dvol" type="range" min="0" max="1" step=".01" value=".38">
+      <label class="label">Tempo</label>
+      <div class="bpm" id="bpm">92 BPM</div>
+      <input class="range" id="tempo" type="range" min="55" max="150" value="92">
+    </div>
+
+    <div class="card">
+      <label class="label">Harmonium</label><input class="range" id="harmVol" type="range" min="0" max="1" step=".01" value=".78">
+    </div>
+    <div class="card">
+      <label class="label">Tabla</label><input class="range" id="tablaVol" type="range" min="0" max="1" step=".01" value=".72">
+    </div>
+    <div class="card">
+      <label class="label">Tanpura</label><input class="range" id="droneVol" type="range" min="0" max="1" step=".01" value=".35">
+    </div>
+    <div class="card">
+      <label class="label">Claps</label><input class="range" id="clapVol" type="range" min="0" max="1" step=".01" value=".38">
     </div>
 
     <div class="card wide">
-      <div class="switch"><span>Voice → Harmonium follower</span><input id="follow" type="checkbox" checked></div>
-      <div class="switch"><span>Tanpura-style Sa / Pa drone</span><input id="drone" type="checkbox" checked></div>
-      <div class="switch"><span>Tabla groove</span><input id="tabla" type="checkbox" checked></div>
-      <div class="row">
-        <select id="groove">
-          <option value="slow">Qawwali Slow • 76 BPM</option>
-          <option value="medium" selected>Qawwali Medium • 92 BPM</option>
-          <option value="fast">Qawwali Fast • 112 BPM</option>
-        </select>
-        <button id="panic" class="danger">ALL STOP</button>
-      </div>
+      <h3>Live Engine</h3>
+      <div class="switch"><span>Voice → Harmonium</span><input id="follow" type="checkbox" checked></div>
+      <div class="switch"><span>Scale-lock detected notes</span><input id="scaleLock" type="checkbox" checked></div>
+      <div class="switch"><span>Natural pitch slides / legato</span><input id="slides" type="checkbox" checked></div>
+      <div class="switch"><span>Smart phrase mode</span><input id="smart" type="checkbox" checked></div>
+      <div class="switch"><span>Tanpura Sa / Pa</span><input id="drone" type="checkbox" checked></div>
+      <div class="switch"><span>Tabla</span><input id="tabla" type="checkbox" checked></div>
+      <div class="switch"><span>Hand claps</span><input id="claps" type="checkbox" checked></div>
     </div>
+
+    <div class="card">
+      <label class="label">Reverb</label><input class="range" id="reverb" type="range" min="0" max="1" step=".01" value=".18">
+    </div>
+    <div class="card">
+      <label class="label">Input gate</label><input class="range" id="gate" type="range" min=".005" max=".08" step=".001" value=".018">
+    </div>
+    <div class="card">
+      <label class="label">Performance energy</label>
+      <select id="energy"><option value="0">Low</option><option value="1" selected>Medium</option><option value="2">High</option><option value="3">Climax</option></select>
+    </div>
+    <div class="card">
+      <label class="label">Stage</label>
+      <button id="stageMode" class="bigbtn">STAGE MODE</button>
+    </div>
+
     <div class="card wide">
-      <div class="small">
-        Stage tip: use wired headphones/monitoring when possible. On Android, allow microphone access and keep the phone close to the mic source. 
-        The follower uses live pitch estimation and a synthesized harmonium tone, so it works offline after this page is loaded.
+      <h3>Presets & Calibration</h3>
+      <div class="row3">
+        <button id="savePreset">SAVE PRESET</button>
+        <button id="loadPreset">LOAD PRESET</button>
+        <button id="calibrate">LATENCY TEST</button>
+      </div>
+      <div class="mini" id="calStatus">Audio calibration: not measured. Use wired/USB audio for serious stage use.</div>
+    </div>
+
+    <div class="card wide">
+      <h3>External control</h3>
+      <div class="row">
+        <button id="midi">MIDI: NOT CONNECTED</button>
+        <button id="install">INSTALL APP</button>
+      </div>
+      <div class="mini">MIDI availability depends on the browser/device. The web build can expose detected notes where Web MIDI is supported. The native Android/DAW versions should use a dedicated low-latency audio engine.</div>
+    </div>
+
+    <div class="card wide">
+      <div class="mini">
+        <span class="tag">OFFLINE</span><span class="tag">LOW LATENCY</span><span class="tag">QAWALI</span>
+        This build is a production-oriented web prototype. It includes the live engine, scale-aware pitch following, synthesized harmonium/tabla/tanpura/claps, mixer controls, reverb, presets, stage mode, calibration workflow and installable PWA shell. High-quality commercial sample libraries, native Android audio drivers and a true VST/AU plugin require separate assets/build targets and are not embedded here.
       </div>
     </div>
   </section>
-</main>
+</div>
 
 <script>
-const A4=440, names=["C","C♯","D","D♯","E","F","F♯","G","G♯","A","A♯","B"];
-const tonicSel=document.getElementById('tonic');
-for(let m=0;m<12;m++){let o=document.createElement('option');o.value=m;o.textContent=names[m];if(m===0)o.selected=true;tonicSel.appendChild(o)}
+const A4=440, N=["C","C♯","D","D♯","E","F","F♯","G","G♯","A","A♯","B"];
 const $=id=>document.getElementById(id);
-let ac,stream,src,analyser,buf,raf,live=false,lastNote=-1,lastTime=0;
-let harmGain,droneGain,tablaGain,tablaTimer=null;
-const midiFreq=m=>A4*Math.pow(2,(m-69)/12);
-function midiToName(m){return names[(m%12+12)%12]+(Math.floor(m/12)-1)}
-function freqToMidi(f){return 69+12*Math.log2(f/A4)}
-function detectPitch(data,sr){
-  let rms=0; for(let i=0;i<data.length;i++) rms+=data[i]*data[i];
-  rms=Math.sqrt(rms/data.length); if(rms<0.018)return null;
-  let bestLag=0,best=-1, maxLag=Math.floor(sr/70), minLag=Math.floor(sr/900);
-  for(let lag=minLag;lag<=maxLag;lag++){
-    let sum=0; for(let i=0;i<data.length-lag;i++) sum+=data[i]*data[i+lag];
-    let v=sum/(data.length-lag); if(v>best){best=v;bestLag=lag}
+for(let i=0;i<12;i++){let o=document.createElement("option");o.value=i;o.textContent=N[i];$("tonic").appendChild(o)}
+const SCALE={bilawal:[0,2,4,5,7,9,11],kafi:[0,2,3,5,7,9,10],bhairavi:[0,1,3,5,7,8,10],custom:[0,2,4,5,7,9,11]};
+let ac=null,stream=null,an=null,data=null,live=false,raf=0,tablaTimer=null,clapTimer=null;
+let harmBus,master,droneBus,tablaBus,clapBus,reverbNode;
+let voiceNodes=[],currentMidi=null,lastCandidate=null,candidateSince=0,lastTrigger=0,lastSeen=0;
+let energy=1, phase=0;
+
+function mf(m){return A4*Math.pow(2,(m-69)/12)}
+function name(m){return N[(m%12+12)%12]+(Math.floor(m/12)-1)}
+function pitch(x,sr){
+  let n=x.length,r=0;for(let i=0;i<n;i++)r+=x[i]*x[i];r=Math.sqrt(r/n);
+  if(r<Number($("gate").value))return null;
+  let min=Math.floor(sr/900),max=Math.floor(sr/70),bestLag=-1,best=-1;
+  for(let lag=min;lag<=max;lag++){
+    let s=0,a=0,b=0;
+    for(let i=0;i<n-lag;i++){let u=x[i],v=x[i+lag];s+=u*v;a+=u*u;b+=v*v}
+    let c=s/Math.sqrt((a*b)||1);if(c>best){best=c;bestLag=lag}
   }
-  if(bestLag===0)return null;
-  let f=sr/bestLag;
-  if(f<70||f>900)return null;
-  return {f,rms};
+  if(best<.72)return null;
+  let vals=[];for(let d=-1;d<=1;d++){let lag=bestLag+d,s=0,a=0,b=0;
+    for(let i=0;i<n-lag;i++){let u=x[i],v=x[i+lag];s+=u*v;a+=u*u;b+=v*v}
+    vals.push(s/Math.sqrt((a*b)||1))}
+  let den=vals[0]-2*vals[1]+vals[2],off=den?.5*(vals[0]-vals[2])/den:0;
+  let hz=sr/(bestLag+off);if(hz<70||hz>900)return null;return {hz,rms:r,conf:best};
 }
-function stopVoice(){
-  if(harmGain){harmGain.gain.cancelScheduledValues(ac.currentTime);harmGain.gain.setTargetAtTime(0,ac.currentTime,.025)}
+function allowedMidi(m){
+  if(!$("scaleLock").checked)return m;
+  let tonic=Number($("tonic").value), pc=((m%12)-tonic+12)%12, scale=SCALE[$("scale").value];
+  let best=scale[0],dist=99;
+  scale.forEach(v=>{let d=Math.min(Math.abs(pc-v),12-Math.abs(pc-v));if(d<dist){dist=d;best=v}});
+  let base=m-pc;return base+best;
 }
-function playHarmonium(midi,vel=.8){
-  if(!ac||!harmGain)return;
-  const now=ac.currentTime, f=midiFreq(midi);
-  const o1=ac.createOscillator(),o2=ac.createOscillator(),o3=ac.createOscillator();
-  const g=ac.createGain(); g.gain.value=0;
-  // bright reed-like additive tone with slight detune
-  o1.type='sawtooth'; o2.type='sawtooth'; o3.type='triangle';
-  o1.frequency.value=f;o2.frequency.value=f*1.002;o3.frequency.value=f*2;
-  const lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2800;lp.Q.value=.5;
-  o1.connect(g);o2.connect(g);o3.connect(g);g.connect(lp);lp.connect(harmGain);
-  const amp=.18*Number($('hvol').value)*vel;
-  g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(amp,now+.025);
-  g.gain.setTargetAtTime(amp*.82,now+.04,.16);
-  setTimeout(()=>{try{o1.stop();o2.stop();o3.stop()}catch(e){}},900);
-  o1.start();o2.start();o3.start();
+function clearVoice(){
+  let now=ac?.currentTime||0;
+  voiceNodes.forEach(v=>{try{v.g.gain.cancelScheduledValues(now);v.g.gain.setTargetAtTime(.0001,now,.025);v.o.stop(now+.12)}catch(e){}});
+  voiceNodes=[];
 }
-function setDrone(){
-  if(!ac||!droneGain)return;
-  droneGain.gain.value=0;
-  const tonic=Number(tonicSel.value);
-  const root=48+tonic, fifth=root+7;
-  [root,root+12,fifth+12].forEach((m,i)=>{
-    const o=ac.createOscillator();o.type=i===0?'triangle':'sine';o.frequency.value=midiFreq(m);
-    const g=ac.createGain();g.gain.value=i===0?.13:.055;o.connect(g);g.connect(droneGain);o.start();
+function harmonium(m,level){
+  if(!ac)return;
+  let now=ac.currentTime, target=mf(m);
+  if(currentMidi!==null && $("slides").checked && Math.abs(m-currentMidi)<=3 && voiceNodes.length){
+    voiceNodes.forEach((v,i)=>{try{v.o.frequency.cancelScheduledValues(now);v.o.frequency.exponentialRampToValueAtTime(target*(i===3?1.003:1),now+.07)}catch(e){}});
+    return;
+  }
+  clearVoice();currentMidi=m;
+  let bus=ac.createGain();bus.gain.value=1;bus.connect(harmBus);
+  let parts=[[1,.68,"sawtooth"],[1.003,.23,"triangle"],[2,.16,"sine"],[3,.07,"triangle"]];
+  parts.forEach(([mul,amp,type])=>{
+    let o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=target*mul;
+    g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(Math.max(.001,amp*.16*level*Number($("harmVol").value)),now+.018);
+    g.gain.setTargetAtTime(amp*.11*level*Number($("harmVol").value),now+.05,.13);
+    o.connect(g);g.connect(bus);o.start();voiceNodes.push({o,g});
   });
-  droneGain.gain.value=Number($('dvol').value);
+  setTimeout(()=>clearVoice(),1100);
 }
-function tablaHit(kind){
-  if(!ac||!tablaGain)return;
-  const now=ac.currentTime;
-  const o=ac.createOscillator(),g=ac.createGain(),f=ac.createBiquadFilter();
-  o.type='sine'; o.frequency.value=kind==='dha'?155:kind==='na'?235:95;
-  f.type='bandpass';f.frequency.value=kind==='dha'?700:kind==='na'?1300:220;f.Q.value=1.1;
-  o.connect(f);f.connect(g);g.connect(tablaGain);g.gain.setValueAtTime(.001,now);
-  g.gain.exponentialRampToValueAtTime(kind==='dha'?.34:.24,now+.004);
-  g.gain.exponentialRampToValueAtTime(.001,now+.16);o.start();o.stop(now+.18);
+function setupDrone(){
+  if(!ac)return;if(droneBus)try{droneBus.disconnect()}catch(e){}
+  droneBus=ac.createGain();droneBus.gain.value=$("drone").checked?Number($("droneVol").value):0;droneBus.connect(master);
+  let root=48+Number($("tonic").value);
+  [[root,.20],[root+7+12,.07],[root+12,.10],[root+24,.05]].forEach(([m,gain])=>{
+    let o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.value=mf(m);g.gain.value=gain;o.connect(g);g.connect(droneBus);o.start();
+  });
 }
-function grooveMs(){return {slow:60000/76,medium:60000/92,fast:60000/112}[$('groove').value]}
-function restartTabla(){
-  if(tablaTimer)clearInterval(tablaTimer); tablaTimer=null;
-  if(!$('tabla').checked||!ac)return;
-  let step=0, seq=['dha',null,'na','na','dha',null,'na','na'];
-  tablaTimer=setInterval(()=>{tablaHit(seq[step++%seq.length])},grooveMs()/2);
+function tablaHit(bol){
+  if(!ac||!$("tabla").checked)return;
+  let now=ac.currentTime, base={dha:145,dhin:205,na:260,tin:320,ge:90,ta:180}[bol]||110;
+  let o=ac.createOscillator(),g=ac.createGain(),f=ac.createBiquadFilter();o.type="sine";o.frequency.value=base;
+  f.type="bandpass";f.frequency.value=bol==="na"||bol==="tin"?1200:450;f.Q.value=1.15;
+  o.connect(f);f.connect(g);g.connect(tablaBus);let a=.30*Number($("tablaVol").value)*(1+energy*.15);
+  g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(Math.max(.002,a),now+.004);g.gain.exponentialRampToValueAtTime(.0001,now+.16);o.start();o.stop(now+.18);
+}
+function clap(){
+  if(!ac||!$("claps").checked)return;
+  let b=ac.createBuffer(1,ac.sampleRate*.12,ac.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(ac.sampleRate*.025));
+  let s=ac.createBufferSource(),g=ac.createGain(),f=ac.createBiquadFilter();s.buffer=b;f.type="highpass";f.frequency.value=900;
+  g.gain.value=.16*Number($("clapVol").value)*(1+energy*.2);s.connect(f);f.connect(g);g.connect(clapBus);s.start();
+}
+function rhythm(){
+  if(tablaTimer)clearInterval(tablaTimer);if(clapTimer)clearInterval(clapTimer);tablaTimer=clapTimer=null;
+  if(!live)return;let bpm=Number($("tempo").value)*(1+energy*.04),beat=60000/bpm;
+  let taal=$("taal").value, seq=taal==="dadra"?["dha",null,"na","dha",null,"na"]:taal==="teental"?["dha","dhin","dhin","dha", "dha","dhin","dhin","dha","dha","tin","tin","ta","ta","dhin","dhin","dha"]:["dha",null,"na","na","dhin",null,"na","na"];
+  let i=0;tablaTimer=setInterval(()=>{let b=seq[i++%seq.length];if(b)tablaHit(b)},beat/2);
+  let ci=0;clapTimer=setInterval(()=>{if(ci++%4===0||energy>=2)clap()},beat);
+}
+function initAudio(){
+  master=ac.createGain();master.gain.value=.86;
+  reverbNode=ac.createConvolver();let len=Math.floor(ac.sampleRate*.8),imp=ac.createBuffer(2,len,ac.sampleRate);
+  for(let ch=0;ch<2;ch++){let d=imp.getChannelData(ch);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.2)}
+  reverbNode.buffer=imp;let dry=ac.createGain(),wet=ac.createGain();dry.gain.value=1;wet.gain.value=Number($("reverb").value);
+  harmBus=ac.createGain();tablaBus=ac.createGain();clapBus=ac.createGain();
+  harmBus.connect(dry);tablaBus.connect(dry);clapBus.connect(dry);dry.connect(master);
+  harmBus.connect(reverbNode);tablaBus.connect(reverbNode);clapBus.connect(reverbNode);reverbNode.connect(wet);wet.connect(master);master.connect(ac.destination);
+  setupDrone();
 }
 async function start(){
   if(live){stop();return}
   try{
-    ac=new (window.AudioContext||window.webkitAudioContext)();
-    stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
-    src=ac.createMediaStreamSource(stream);analyser=ac.createAnalyser();analyser.fftSize=2048;analyser.smoothingTimeConstant=.15;
-    src.connect(analyser);buf=new Float32Array(analyser.fftSize);
-    harmGain=ac.createGain();droneGain=ac.createGain();tablaGain=ac.createGain();
-    harmGain.connect(ac.destination);droneGain.connect(ac.destination);tablaGain.connect(ac.destination);
-    live=true;$('start').textContent='STOP LIVE';$('status').textContent='Listening • sing normally';$('latency').textContent='Mic: live';
-    if($('drone').checked)setDrone();restartTabla();raf=requestAnimationFrame(loop);
-  }catch(e){$('status').textContent='Microphone permission required';console.error(e)}
+    ac=new (window.AudioContext||window.webkitAudioContext)({latencyHint:"interactive"});await ac.resume();
+    stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+    an=ac.createAnalyser();an.fftSize=4096;an.smoothingTimeConstant=.04;ac.createMediaStreamSource(stream).connect(an);data=new Float32Array(an.fftSize);
+    initAudio();live=true;$("start").textContent="STOP LIVE";$("micStatus").textContent="MIC LIVE";$("status").textContent="Listening • sing naturally";rhythm();raf=requestAnimationFrame(loop);
+  }catch(e){$("status").textContent="Microphone permission required";console.error(e)}
 }
 function stop(){
-  live=false;if(raf)cancelAnimationFrame(raf);if(tablaTimer)clearInterval(tablaTimer);
-  if(stream)stream.getTracks().forEach(t=>t.stop()); if(ac)ac.close();
-  $('start').textContent='START LIVE';$('status').textContent='Ready for stage';$('latency').textContent='Mic: off';
-  $('note').textContent='—';$('freq').textContent='Sing after Start Live';$('meter').style.width='50%';
+  live=false;cancelAnimationFrame(raf);if(tablaTimer)clearInterval(tablaTimer);if(clapTimer)clearInterval(clapTimer);tablaTimer=clapTimer=null;clearVoice();
+  if(stream)stream.getTracks().forEach(t=>t.stop());if(ac)ac.close();ac=null;
+  $("start").textContent="START LIVE";$("micStatus").textContent="OFFLINE";$("status").textContent="Ready for performance";$("note").textContent="—";$("readout").textContent="Press START LIVE, allow microphone, and sing";$("meter").style.width="50%";
 }
 function loop(){
-  if(!live)return;
-  analyser.getFloatTimeDomainData(buf); const p=detectPitch(buf,ac.sampleRate);
+  if(!live)return;an.getFloatTimeDomainData(data);let p=pitch(data,ac.sampleRate);
   if(p){
-    const midi=Math.round(freqToMidi(p.f));
-    const cents=(freqToMidi(p.f)-midi)*100;
-    $('note').textContent=midiToName(midi);
-    $('freq').textContent=p.f.toFixed(1)+' Hz  •  '+(cents>=0?'+':'')+cents.toFixed(0)+' cents';
-    $('meter').style.width=Math.max(4,Math.min(96,50+cents*.45))+'%';
-    if($('follow').checked && Math.abs(midi-lastNote)>0 || ($('follow').checked&&performance.now()-lastTime>500&&midi===lastNote)){
-      if(performance.now()-lastTime>65){stopVoice();playHarmonium(midi,Math.min(1,p.rms*16));lastNote=midi;lastTime=performance.now()}
-    }
+    let exact=69+12*Math.log2(p.hz/A4),m=Math.round(exact);m=allowedMidi(m);
+    let cents=(exact-m)*100;
+    // stable note decision
+    if(lastCandidate!==m){lastCandidate=m;candidateSince=performance.now()}
+    let stable=performance.now()-candidateSince>45;
+    $("note").textContent=name(m);$("readout").textContent=p.hz.toFixed(1)+" Hz • "+(cents>=0?"+":"")+cents.toFixed(0)+" cents • confidence "+Math.round(p.conf*100)+"%";
+    $("meter").style.width=Math.max(3,Math.min(97,50+cents*.42))+"%";
+    if($("follow").checked&&stable&&p.conf>.74&&performance.now()-lastTrigger>75){harmonium(m,Math.min(1,p.rms*18));lastTrigger=performance.now()}
+    lastSeen=performance.now();
   }
   raf=requestAnimationFrame(loop);
 }
-$('start').onclick=start;$('panic').onclick=()=>{if(live)stop()};
-$('drone').onchange=()=>{if(live&&droneGain)droneGain.gain.value=$('drone').checked?Number($('dvol').value):0};
-$('dvol').oninput=()=>{if(live&&droneGain&&$('drone').checked)droneGain.gain.value=Number($('dvol').value)};
-$('hvol').oninput=()=>{};$('tabla').onchange=restartTabla;$('groove').onchange=restartTabla;$('tonic').onchange=()=>{if(live&&$('drone').checked){/* drone is static in this MVP, restart to retune */stop();setTimeout(start,50)}};
+$("start").onclick=start;
+$("stop").onclick=stop;
+$("tempo").oninput=()=>{$("bpm").textContent=$("tempo").value+" BPM";if(live)rhythm()};
+$("taal").onchange=$("groove")?.onchange=()=>{if(live)rhythm()};
+$("tabla").onchange=()=>{if(live)rhythm()};$("claps").onchange=()=>{if(live)rhythm()};
+$("tonic").onchange=()=>{if(live)setupDrone()};$("drone").onchange=()=>{if(live)setupDrone()};
+$("reverb").oninput=()=>{};$("energy").onchange=()=>{energy=Number($("energy").value);if(live)rhythm()};
+$("build").onclick=()=>{$("energy").value=2;energy=2;if(live)rhythm()};
+$("climax").onclick=()=>{$("energy").value=3;energy=3;if(live)rhythm()};
+$("stageMode").onclick=()=>{$("app").classList.add("stage");window.scrollTo(0,0)};
+$("stageExit").onclick=()=>{$("app").classList.remove("stage")};
+$("calibrate").onclick=async()=>{$("calStatus").textContent="Testing audio path…";
+  if(!ac){$("calStatus").textContent="Start LIVE first, then run latency test.";return}
+  let base=ac.baseLatency||0,out=ac.outputLatency||0;let ms=Math.round((base+out)*1000);
+  $("calStatus").textContent="Browser-reported audio latency: ~"+ms+" ms. Real mic-to-PA latency may be higher; use USB audio and test on your exact device.";
+};
+$("savePreset").onclick=()=>{let p={tonic:$("tonic").value,scale:$("scale").value,taal:$("taal").value,tempo:$("tempo").value,harmVol:$("harmVol").value,tablaVol:$("tablaVol").value,droneVol:$("droneVol").value,clapVol:$("clapVol").value,reverb:$("reverb").value,energy:$("energy").value};localStorage.qawwaliPreset=JSON.stringify(p);$("calStatus").textContent="Preset saved on this device."};
+$("loadPreset").onclick=()=>{try{let p=JSON.parse(localStorage.qawwaliPreset);Object.keys(p).forEach(k=>{if($(k))$(k).value=p[k]});$("bpm").textContent=$("tempo").value+" BPM";energy=Number($("energy").value);$("calStatus").textContent="Preset loaded."}catch(e){$("calStatus").textContent="No saved preset found."}};
+$("midi").onclick=async()=>{if(!navigator.requestMIDIAccess){$("midi").textContent="MIDI UNSUPPORTED";return}try{let m=await navigator.requestMIDIAccess();$("midi").textContent="MIDI READY • "+m.inputs.size+" IN / "+m.outputs.size+" OUT"}catch(e){$("midi").textContent="MIDI BLOCKED"}};
+$("install").onclick=async()=>{if(window.deferredPrompt){window.deferredPrompt.prompt();await window.deferredPrompt.userChoice;window.deferredPrompt=null}else{$("calStatus").textContent="Use Chrome menu → Add to Home screen. This site is installable when served over HTTPS."}};
+let deferredPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
 </script>
-</body></html>
+</body>
+</html>

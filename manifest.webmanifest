@@ -3,6 +3,8 @@
   "short_name": "Qawwali Live",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#090b10",
-  "theme_color": "#090b10"
+  "background_color": "#080a0f",
+  "theme_color": "#080a0f",
+  "description": "Low-latency Qawwali vocal follower and live accompaniment prototype.",
+  "icons": []
 }
