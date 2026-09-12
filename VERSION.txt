@@ -1,1 +1,1 @@
-Qawwali Live v3.0 • market-oriented PWA prototype • 2026-09-11
+Qawwali Live v3.1 • critical startup fix • PWA manifest/service worker • 2026-09-11

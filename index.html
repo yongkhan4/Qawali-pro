@@ -7,6 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Qawwali Live</title>
+<link rel="manifest" href="./manifest.webmanifest">
 <style>
 :root{--bg:#080a0f;--panel:#111621;--panel2:#171d29;--line:#293242;--text:#f5f7fb;--muted:#929dad;--gold:#e1bd70;--green:#73d39b;--red:#e0646b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -232,7 +233,15 @@ async function start(){
     stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
     an=ac.createAnalyser();an.fftSize=4096;an.smoothingTimeConstant=.04;ac.createMediaStreamSource(stream).connect(an);data=new Float32Array(an.fftSize);
     initAudio();live=true;$("start").textContent="STOP LIVE";$("micStatus").textContent="MIC LIVE";$("status").textContent="Listening • sing naturally";rhythm();raf=requestAnimationFrame(loop);
-  }catch(e){$("status").textContent="Microphone permission required";console.error(e)}
+   }catch(e){
+  const msg = e && e.name ? e.name : "Unknown error";
+  $("status").textContent = msg === "NotAllowedError" ? "Microphone permission blocked" :
+                            msg === "NotFoundError" ? "No microphone found" :
+                            msg === "NotReadableError" ? "Microphone is busy" :
+                            "Audio start failed";
+  $("readout").textContent = "Check Chrome microphone permission, then reload.";
+  console.error(e);
+}
 }
 function stop(){
   live=false;cancelAnimationFrame(raf);if(tablaTimer)clearInterval(tablaTimer);if(clapTimer)clearInterval(clapTimer);tablaTimer=clapTimer=null;clearVoice();
@@ -255,7 +264,7 @@ function loop(){
   raf=requestAnimationFrame(loop);
 }
 $("start").onclick=start;
-$("stop").onclick=stop;
+/* STOP is handled by the same START LIVE button. */
 $("tempo").oninput=()=>{$("bpm").textContent=$("tempo").value+" BPM";if(live)rhythm()};
 $("taal").onchange=$("groove")?.onchange=()=>{if(live)rhythm()};
 $("tabla").onchange=()=>{if(live)rhythm()};$("claps").onchange=()=>{if(live)rhythm()};
@@ -275,6 +284,13 @@ $("loadPreset").onclick=()=>{try{let p=JSON.parse(localStorage.qawwaliPreset);Ob
 $("midi").onclick=async()=>{if(!navigator.requestMIDIAccess){$("midi").textContent="MIDI UNSUPPORTED";return}try{let m=await navigator.requestMIDIAccess();$("midi").textContent="MIDI READY • "+m.inputs.size+" IN / "+m.outputs.size+" OUT"}catch(e){$("midi").textContent="MIDI BLOCKED"}};
 $("install").onclick=async()=>{if(window.deferredPrompt){window.deferredPrompt.prompt();await window.deferredPrompt.userChoice;window.deferredPrompt=null}else{$("calStatus").textContent="Use Chrome menu → Add to Home screen. This site is installable when served over HTTPS."}};
 let deferredPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
 </script>
 </body>
 </html>

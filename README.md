@@ -22,3 +22,7 @@ Upload `index.html`, `manifest.webmanifest`, and `sw.js` to the root of a GitHub
 
 ## Production caveat
 This is the most complete browser prototype that can be delivered as a self-contained artifact here. A truly market-ready commercial product still needs native Android low-latency audio, professionally recorded/licensed harmonium and tabla sample libraries, exhaustive device testing, feedback control, licensing, crash/telemetry strategy, and separate VST3/AU plugin targets.
+
+
+## v3.1 fix
+The previous v3 web build had a JavaScript initialization error because it attempted to attach an event handler to a non-existent `#stop` element. That prevented the Start Live handler from being installed. v3.1 removes that error and registers the service worker/PWA manifest.
